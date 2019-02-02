@@ -1,6 +1,6 @@
 let currentNumber = 0;
 
-for (let i = 7; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
   document
     .getElementById('number' + i)
     .addEventListener('click', function () {     // Handle user input
