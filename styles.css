@@ -1,0 +1,17 @@
+button {
+  width: 100%;
+  font-size: 200%;
+  height: 50px;
+}
+
+td {
+  width: 50px;
+}
+
+#display {
+    background-color: #dfdfdf;
+    height: 50px;
+    font-size: 250%;
+    padding: 0 1em;
+    text-align: right;
+}
