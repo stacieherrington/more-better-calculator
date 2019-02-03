@@ -4,6 +4,10 @@ button {
   height: 50px;
 }
 
+button.tall {
+  height: 110px;
+}
+
 td {
   width: 50px;
 }
@@ -14,4 +18,11 @@ td {
     font-size: 250%;
     padding: 0 1em;
     text-align: right;
+}
+
+#current-calculation {
+  height: 50px;
+  font-size: 250%;
+  padding: 0 1em;
+  color: #dfdfdf;
 }
