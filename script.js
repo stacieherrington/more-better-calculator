@@ -3,6 +3,8 @@ let shouldClearDisplay = false;
 let currentOperationsKey;
 let currentCalculationValue = "";
 let previousOperationsKey;
+let isThereAPoint = false; // nihilism
+let divisor = 10;
 const operations = {
   plus: " + ",
   minus: " - ",
@@ -18,6 +20,8 @@ function setClearDisplayOnNextNumberInput() {
 function setCurrentOperationsKey(value) {
   previousOperationsKey = currentOperationsKey;
   currentOperationsKey = value;
+  isThereAPoint = false;
+  divisor = 10;
 }
 
 function removeCurrentOperationsKey() {
@@ -32,7 +36,12 @@ function clearTheDisplayIfNecessary() {
 }
 
 function updateCurrentNumber(value) {
-  currentNumber = (currentNumber * 10) + value;
+  if (isThereAPoint) {
+    currentNumber = currentNumber + (value / divisor);
+    divisor *= 10;
+  } else {
+    currentNumber = (currentNumber * 10) + value;
+  }
 }
 
 function updateCurrentCalculationValue() {
@@ -94,6 +103,11 @@ for (let key of Object.keys(operations)) {
     });
 }
 
+document
+  .getElementById('decimal')
+  .addEventListener('click', function () {
+    isThereAPoint = true;
+  });
 
 /* ON PAGE LOAD */
 updateDisplay();
