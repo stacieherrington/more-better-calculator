@@ -20,12 +20,16 @@ function setClearDisplayOnNextNumberInput() {
 function setCurrentOperationsKey(value) {
   previousOperationsKey = currentOperationsKey;
   currentOperationsKey = value;
-  isThereAPoint = false;
-  divisor = 10;
 }
 
 function removeCurrentOperationsKey() {
   currentOperationsKey = undefined;
+}
+
+function removeThePoint() {
+  isThereAPoint = false;
+  divisor = 10;
+  console.log("There is no point.")
 }
 
 function clearTheDisplayIfNecessary() {
@@ -97,6 +101,7 @@ for (let key of Object.keys(operations)) {
     .addEventListener('click', function () {  // Handle user input
       setClearDisplayOnNextNumberInput()      // Change state
       setCurrentOperationsKey(key);           // Change state
+      removeThePoint()                        // Change state
       updateCurrentCalculationValue();        // Change state
       updateCurrentCalculation();             // Update view
       logState();
