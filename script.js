@@ -114,5 +114,26 @@ document
     isThereAPoint = true;
   });
 
+document
+  .getElementById('clear')
+  .addEventListener('click', function() {
+    shouldClearDisplay = true;
+    clearTheDisplayIfNecessary();
+    removeThePoint();
+    updateDisplay();
+  });
+
+document
+  .getElementById('all-clear')
+  .addEventListener('click', function() {
+    currentCalculationValue = "";
+    shouldClearDisplay = true;
+    clearTheDisplayIfNecessary();
+    removeThePoint();
+    updateDisplay();
+
+    updateCurrentCalculation();
+  });
+
 /* ON PAGE LOAD */
 updateDisplay();
