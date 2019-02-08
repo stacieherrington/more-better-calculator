@@ -2,6 +2,7 @@ let currentNumber = 0;
 let shouldClearDisplay = false;
 let currentOperationsKey;
 let currentCalculationValue = "";
+let previousOperationsKey;
 const operations = {
   plus: " + ",
   minus: " - ",
@@ -15,6 +16,7 @@ function setClearDisplayOnNextNumberInput() {
 }
 
 function setCurrentOperationsKey(value) {
+  previousOperationsKey = currentOperationsKey;
   currentOperationsKey = value;
 }
 
@@ -34,9 +36,10 @@ function updateCurrentNumber(value) {
 }
 
 function updateCurrentCalculationValue() {
-  debugger;
-  if (currentOperationsKey) { // check if the LAST key is not undefined
-    currentCalculationValue = currentCalculationValue.substring(0,currentCalculationValue.length - 3);
+  if (previousOperationsKey) { // check if the LAST key is not undefined
+    let operatorLength = operations[previousOperationsKey].length;
+    let valueLength = currentCalculationValue.length - operatorLength;
+    currentCalculationValue = currentCalculationValue.substring(0, valueLength);
     currentCalculationValue += operations[currentOperationsKey];
   } else {
     // Use the currently clicked key to build a string
@@ -84,8 +87,8 @@ for (let key of Object.keys(operations)) {
     .getElementById(key)
     .addEventListener('click', function () {  // Handle user input
       setClearDisplayOnNextNumberInput()      // Change state
-      updateCurrentCalculationValue();        // Change state
       setCurrentOperationsKey(key);           // Change state
+      updateCurrentCalculationValue();        // Change state
       updateCurrentCalculation();             // Update view
       logState();
     });
