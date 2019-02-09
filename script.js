@@ -6,10 +6,10 @@ let previousOperationsKey;
 let isThereAPoint = false; // nihilism
 let divisor = 10;
 const operations = {
-  plus: " + ",
-  minus: " - ",
-  times: " &times; ",
-  divide: " &divide; ",
+  plus: { view: " + ", math: "+" },
+  minus: { view: " - ", math: "-" },
+  times: { view: " &times; ", math: "*" },
+  divide: { view: " &divide; ", math: "/" },
 };
 
 /* STATE CHANGES */
@@ -50,13 +50,13 @@ function updateCurrentNumber(value) {
 
 function updateCurrentCalculationValue() {
   if (previousOperationsKey) { // check if the LAST key is not undefined
-    let operatorLength = operations[previousOperationsKey].length;
+    let operatorLength = operations[previousOperationsKey].view.length;
     let valueLength = currentCalculationValue.length - operatorLength;
     currentCalculationValue = currentCalculationValue.substring(0, valueLength);
-    currentCalculationValue += operations[currentOperationsKey];
+    currentCalculationValue += operations[currentOperationsKey].view;
   } else {
     // Use the currently clicked key to build a string
-    currentCalculationValue += currentNumber + operations[currentOperationsKey];
+    currentCalculationValue += currentNumber + operations[currentOperationsKey].view;
   }
 }
 
@@ -68,7 +68,7 @@ function updateDisplay() {
     .innerHTML = currentNumber;
 }
 
-function updateCurrentCalculation() {
+function updateCurrentCalculationView() {
   document
     .getElementById('current-calculation')
     .innerHTML = currentCalculationValue;
@@ -99,11 +99,11 @@ for (let key of Object.keys(operations)) {
   document
     .getElementById(key)
     .addEventListener('click', function () {  // Handle user input
-      setClearDisplayOnNextNumberInput()      // Change state
+      setClearDisplayOnNextNumberInput();     // Change state
       setCurrentOperationsKey(key);           // Change state
       removeThePoint()                        // Change state
       updateCurrentCalculationValue();        // Change state
-      updateCurrentCalculation();             // Update view
+      updateCurrentCalculationView();         // Update view
       logState();
     });
 }
@@ -112,6 +112,36 @@ document
   .getElementById('decimal')
   .addEventListener('click', function () {
     isThereAPoint = true;
+  });
+
+document
+  .getElementById('equals')
+  .addEventListener('click', function () {
+    setClearDisplayOnNextNumberInput();
+
+    // TRANSLATE CUR CAL VAL:
+    // Get all of the values in operations
+    // Loop over that array
+    // Replace the value of the "view" property with the
+    //   "math" property
+    const arrayOfOperations = Object.values(operations);
+    for (let i = 0; i < arrayOfOperations.length; i++ ) {
+      const op = arrayOfOperations[i];
+      currentCalculationValue = currentCalculationValue.replace(op.view, op.math);
+    }
+
+    // for (let op of arrayOfOperations) {
+    //   currentCalculationValue = currentCalculationValue.replace(op.view, op.math);
+    // }
+
+    // arrayOfOperations.forEach(function (op) {
+    //   currentCalculationValue = currentCalculationValue.replace(op.view, op.math);
+    // });
+
+    currentNumber = eval(currentCalculationValue + currentNumber);
+    currentCalculationValue = ""
+    updateDisplay();
+    updateCurrentCalculationView();
   });
 
 document
@@ -131,9 +161,25 @@ document
     clearTheDisplayIfNecessary();
     removeThePoint();
     updateDisplay();
-
-    updateCurrentCalculation();
+    updateCurrentCalculationView();
   });
 
 /* ON PAGE LOAD */
 updateDisplay();
+
+window.addEventListener('keydown', function (e) {
+  if (e.which >= 48 && e.which <= 57) {
+    clearTheDisplayIfNecessary()            // Change state
+    updateCurrentNumber(e.which - 48);      // Change state
+    removeCurrentOperationsKey();           // Change state
+    updateDisplay();                        // Update view
+    logState();
+  }
+});
+
+// make typing decimal point work
+// make typing operators work
+// make escape clear
+// make two escapes in a row all clear
+// don't worry about copying and pasting because we're
+//   going to go through a really long refactoring exercise
