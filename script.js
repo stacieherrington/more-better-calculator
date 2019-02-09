@@ -62,13 +62,11 @@ function updateCurrentCalculationValue() {
 
 
 /* VIEW UPDATES */
-function updateDisplay() {
+function updateUI() {
   document
     .getElementById('display')
     .innerHTML = currentNumber;
-}
 
-function updateCurrentCalculationView() {
   document
     .getElementById('current-calculation')
     .innerHTML = currentCalculationValue;
@@ -90,7 +88,7 @@ for (let i = 0; i < 10; i++) {
       clearTheDisplayIfNecessary()            // Change state
       updateCurrentNumber(i);                 // Change state
       removeCurrentOperationsKey();           // Change state
-      updateDisplay();                        // Update view
+      updateUI();                        // Update view
       logState();
     });
 }
@@ -103,7 +101,7 @@ for (let key of Object.keys(operations)) {
       setCurrentOperationsKey(key);           // Change state
       removeThePoint()                        // Change state
       updateCurrentCalculationValue();        // Change state
-      updateCurrentCalculationView();         // Update view
+      updateUI();         // Update view
       logState();
     });
 }
@@ -140,8 +138,7 @@ document
 
     currentNumber = eval(currentCalculationValue + currentNumber);
     currentCalculationValue = ""
-    updateDisplay();
-    updateCurrentCalculationView();
+    updateUI();
   });
 
 document
@@ -150,7 +147,7 @@ document
     shouldClearDisplay = true;
     clearTheDisplayIfNecessary();
     removeThePoint();
-    updateDisplay();
+    updateUI();
   });
 
 document
@@ -160,19 +157,18 @@ document
     shouldClearDisplay = true;
     clearTheDisplayIfNecessary();
     removeThePoint();
-    updateDisplay();
-    updateCurrentCalculationView();
+    updateUI();
   });
 
 /* ON PAGE LOAD */
-updateDisplay();
+updateUI();
 
 window.addEventListener('keydown', function (e) {
   if (e.which >= 48 && e.which <= 57) {
     clearTheDisplayIfNecessary()            // Change state
     updateCurrentNumber(e.which - 48);      // Change state
     removeCurrentOperationsKey();           // Change state
-    updateDisplay();                        // Update view
+    updateUI();                        // Update view
     logState();
   }
 });
@@ -183,3 +179,5 @@ window.addEventListener('keydown', function (e) {
 // make two escapes in a row all clear
 // don't worry about copying and pasting because we're
 //   going to go through a really long refactoring exercise
+// take state changing out of event handlers and make state changing
+//   things into their own functions
