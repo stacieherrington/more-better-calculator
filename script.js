@@ -181,3 +181,23 @@ window.addEventListener('keydown', function (e) {
 //   going to go through a really long refactoring exercise
 // take state changing out of event handlers and make state changing
 //   things into their own functions
+
+/*
+ * INSTRUCTIONS FOR currentCalculationValue AS AN ARRAY
+ *
+ * Start with finding all places where you assign an empty string
+ *   to currentCalculationValue and replace those assignments
+ *   with an empty array.
+ * Find all places where you append to currentCalculationValue as a
+ *   string and replace those with calls to the "push" method on the
+ *   array.
+ * Find all places where you strip off characters at the end of the
+ *   value of currentCalculationValue and replace those with the
+ *   "pop" method.
+ * Change the "updateUI" method to translate what is in the
+ *   currentCalculationValue array to something worth seeing in the UI.
+ * Stop using eval by adding functions to the objects in the
+ *   "operations" object and calling those when you calculate the
+ *   new "currentNumber" in the "equals" event handler.
+ * Fix any bugs caused by missing instructions in this block of instructions.
+ *   Sorry about those.
